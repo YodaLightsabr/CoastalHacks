@@ -13,3 +13,6 @@ body {
 h1, h2, h3 {
   font-family: 'Lexend', sans-serif;
 }
+nav {
+  margin-bottom: 30px;
+}

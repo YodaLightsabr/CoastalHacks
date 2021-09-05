@@ -23,13 +23,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/signin">Sign In</a>
+              <a class="nav-link" href="/me">My Account</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/workouts">Workouts</a>
+              <a class="nav-link active" href="/workouts">Workouts</a>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -39,27 +39,32 @@
       </div>
     </nav>
     <div class="px-4 pt-5 my-5 text-center border-bottom">
-    <h1 class="display-4 fw-bold">Fit with Friends</h1>
+    <h1 class="display-4 fw-bold">Trending Workouts</h1>
     <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Browse workouts, compare times, and share exercises with friends.</p>
+      <p class="lead mb-4">Popular workouts right now</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/signin">Sign In</a>
-        <a class="btn btn-outline-secondary btn-lg px-4" href="#main">Learn More</a>
-      </div>
-    </div>
-    <div class="overflow-hidden" style="max-height: 30vh;">
-      <div class="container px-5">
-        <img src="/workout.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
       </div>
     </div>
   </div>
-    <main role="main" class="container" id="main">
-      <h1>Lexend!</h1>
-      <p>Hello!</p>
-      <button class="btn btn-primary">Hello</button>
+    <main role="main" class="container-sm" id="main">
+      <div class="card" style="width: 100%;">
+        <div class="card-header bg-primary text-white">HIIT Workout</div>
+        <div class="card-body"> 
+          <h5 class="card-title">Burpee Blast</h5>
+          <span style="display: inline-block; height: 30px;">
+          <h6 class="card-subtitle mb-2 text-muted" style="vertical-align: middle;"><img src="/favicon.png" style="height: 30px; margin-right: 6px; border: 1px solid black; border-radius: 50%; vertical-align: middle;">Fit with Friends</h6>
+          </span>
+          <p class="card-text">Fit with Friends Workout of the Day: September 4th, 2021.</p>
+          <p class="card-text"><small class="text-muted">3 mins ago</small></p>
+          <a href="/workouts/{id}" class="btn btn-primary">Start Workout</a>
+          <a href="mailto:?subject=Fit%20with%20Friends&body=Check%20out%20this%20workout%20on%20Fit%20with%20Friends!%20https%3A%2F%2Ffitwithfriends.yodacode.repl.co%2Fworkouts%2F{id}" class="btn btn-outline-secondary">Share</a>
+        </div>
+      </div>
     </main>
     <script src="/script.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+
 
   </body>
 </html>

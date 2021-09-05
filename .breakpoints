@@ -1,0 +1,20 @@
+{
+  "files": {
+    "index.js": [
+      {
+        "id": "1a55f1aa-d19c-4ad1-867a-6a28dc96ce79",
+        "line": 3,
+        "version": 1973,
+        "index": 101
+      }
+    ],
+    "workouts/easy.txt": [
+      {
+        "id": "c9dac6aa-f1d1-43e0-b630-e328b86122f5",
+        "line": 1,
+        "version": 21,
+        "index": 0
+      }
+    ]
+  }
+}

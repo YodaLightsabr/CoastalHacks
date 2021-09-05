@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&family=Lexend:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+    <link href="/api/v1/bootstrap?primary=432fd6,3b29c2,614fe855,614fe855" rel="stylesheet">
+    <title>Sign In | Fit with Friends</title>
+    <link href="/favicon.png" rel="favicon">
+    <link href="/favicon.png" rel="icon">
+    <link href="/favicon.png" rel="shortcut icon">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Fit with Friends</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/signin">Sign In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/workouts">Workouts</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold">Sign In</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Browse workouts, compare times, and share workouts with friends.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+<a class="btn btn-primary btn-lg px-4 me-sm-3" href="javascript:signin();"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" style="height:20px;position: relative;top: -2px;/* vertical-align: text-bottom; */padding: 10px;box-sizing: content-box;margin: -10px;background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;"> Sign in with Google</a>      </div>
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+      <div class="container px-5">
+        <img src="/signin3.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+      </div>
+    </div>
+  </div>
+    <main role="main" class="container" id="main">
+    </main>
+    <script src="/script.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://static.yodacode.repl.co/cookie.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVXUyCmFVZ--p6j1vpc1TiWefH_nYracg",
+    authDomain: "fit-with-friends-costalhacks.firebaseapp.com",
+    projectId: "fit-with-friends-costalhacks",
+    storageBucket: "fit-with-friends-costalhacks.appspot.com",
+    messagingSenderId: "179759803448",
+    appId: "1:179759803448:web:2b42d4c9694b18bc60cacd"
+  };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      var provider = new firebase.auth.GoogleAuthProvider();
+
+      function signin() {
+      firebase.auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        /** @type {firebase.auth.OAuthCredential} */
+        var credential = result.credential;
+
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+
+        console.log(result);
+
+        if (user.emailVerified !== true) {
+          return swal('Error', 'Your email isn\'nt verified on your Google account. Please verify your email before using this service.', 'error');
+        }
+        fetch('/auth', {
+          method: 'POST',
+          body: JSON.stringify({ uid: user.uid, email: user.email, name: user.displayName }),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(a => a.json()).then(json => {
+          if (json.success == true) {
+            swal('Signed In', `Welcome, ${user.displayName}!`, 'success').then(() => {
+              Cookie.set('__fwf', json.cookie, 10);
+              window.location.href = '/me';
+            });
+          } else {
+            return swal('Error', 'Our server encountered an error while logging you in. Error details: ' + btoa(JSON.stringify(json)), 'error');
+          }
+        }).catch(err => {
+          swal('Error', 'This page crashed while logging you in. Maybe try reloading? If this keeps happening, please report this error.', 'error').then(() => {
+            location.reload();
+          });
+        });
+        
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+
+        console.log(error);
+        // ...
+      });
+      }
+
+    </script>
+
+  </body>
+</html>

@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link" aria-current="page" href="/">Home</a>
             </li>
             {{unauthed}}
             <li class="nav-item">
@@ -51,43 +51,23 @@
         </div>
       </div>
     </nav>
-    <div class="px-4 pt-5 my-5 text-center border-bottom" style="height: calc(100% - 100px); overflow: hidden;">
+    <div class="px-4 pt-5 my-5 text-center border-bottom">
     <h1 class="display-4 fw-bold">{{;name}}</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">{{;desc}}</p>
+      <a class="profile-link" href="/users/{{;author}}">
+          <span style="display: inline-block; height: 30px;">
+          <h6 class="card-subtitle mb-2 text-muted" style="vertical-align: middle;"><img src="{{;avatar}}" style="height: 30px; margin-right: 6px; border: 1px solid black; border-radius: 50%; vertical-align: middle;"><span class="card-author">@{{;username}}</span></h6>
+          </span>
+          </a>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/workouts">Start Workout</a>
-        <a class="btn btn-outline-secondary btn-lg px-4" href="/workouts">Publish</a>
       </div>
     </div>
-    <div>
-      <div class="container px-5">
-        <div class="border rounded-3 shadow-lg mb-4" style="overflow-y: scroll;">
-<br>
-                <h1>10 Curl-Ups</h1>
-      <br><br>
-                <h1>8 Squats</h1>
-      <br><br>
-                <h1>6 Burpees</h1>
-      <br><br>
-                <h1>4 Push-Ups</h1>
-      <br><br>
-                <h1>20 Second Rest</h1>
-      <br><br>
-                <p>Repeat</p>
-
-        </div>
-      </div>
-    </div>
+    
   </div>
     <main role="main" class="container" id="main">
-      <h1>Fitness that <u>Works</u></h1>
-      <p>Fit with Friends is Fitness meets social media. When you do activities in a group, you're more likely to keep yourselves accountable and always push each other to do more.</p>
-      <button class="btn btn-primary">Watch Demo</button>
-      <br><br><br><br>
-      <h1>Incredible Features</h1>
-      <p>Enhance your workout experience with our suite of features including interval timers, share with friends, and workout stream.</p>
-      <button class="btn btn-primary">Watch Demo</button>
+      <h1>Steps</h1>
+      <p>{{,steps}}</p>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 

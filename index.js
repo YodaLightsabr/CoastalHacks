@@ -58,6 +58,11 @@ app.use((req, res, next) => {
       let varname = item.substring(3, item.length - 2);
       data = data.replace(item, he.encode(variables[varname] || base || 'null'));
     });
+    let lbvars = data.match(/\{\{,.*?\}\}/g);
+    if (lbvars !== null) lbvars.forEach(item => {
+      let varname = item.substring(3, item.length - 2);
+      data = data.replace(item, he.encode(variables[varname] || base || 'null').split('&#x3C;br&#x3E;').join('<br>'));
+    });
     res.send(data);
   }
   next();
@@ -132,10 +137,43 @@ app.get('/quit', (req, res) => {
 app.get('/workouts', (req, res) => { // when the server has a GET request on the / route
   res.sendAuthedFile(__dirname + '/views/workouts.html'); // serve index.html file
 });
-app.get('/workouts/:id', (req, res) => { // when the server has a GET request on the / route
+app.get('/workouts/:id', async (req, res, next) => { // when the server has a GET request on the / route
+  let workout = await db.getWorkout(req.params.id);
+  if (workout == null) return next();
+      let id = workout.data.author;
+      let user;
+      let dbUser;
+      try {
+        user = await admin
+          .auth()
+          .getUser(id);
+        console.log(user);
+        workout.data.author = {};
+        workout.data.author.id = id;
+        workout.data.author.avatar = user.photoURL || 'https://i.pinimg.com/originals/60/99/f3/6099f305983371dadaceae99f5c905bf.png';
+      } catch (err) {
+        workout.data.author = {};
+        workout.data.author.id = id;
+        workout.data.author.avatar = 'https://i.pinimg.com/originals/60/99/f3/6099f305983371dadaceae99f5c905bf.png';
+      }
+      try {
+        dbUser = await db.getUser(id);
+        if (dbUser !== null) {
+          workout.data.author.username = dbUser.data.username;
+        } else {
+          workout.data.author.username = id;
+        }
+      } catch (err) {
+        workout.data.author.username = id;
+      }
   res.sendAuthedFile(__dirname + '/views/workout.html', {
-    bio: 'bio',
-    desc: 'desc'
+    name: workout.data.title,
+    desc: workout.data.description,
+    steps: workout.data.steps.join('<br>'),
+    type: workout.data.type,
+    avatar: workout.data.author.avatar,
+    username: workout.data.author.username,
+    author: workout.data.author.id
   }); // serve index.html file
 });
 app.get('/splash', (req, res) => { // when the server has a GET request on the / route

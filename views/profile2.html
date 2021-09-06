@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&family=Lexend:wght@200;400;700;900&display=swap" rel="stylesheet">
     <link href="/style.css" rel="stylesheet">
     <link href="/api/v1/bootstrap?primary=432fd6,3b29c2,614fe855,614fe855" rel="stylesheet">
-    <title>Workouts | Fit with Friends</title>
+    <title>@{{;username}} | Fit with Friends</title>
     <link href="/favicon.png" rel="favicon">
     <link href="/favicon.png" rel="icon">
     <link href="/favicon.png" rel="shortcut icon">
@@ -90,17 +90,17 @@
             {{/unauthed}}
             {{authed}}
             <li class="nav-item">
-              <a class="nav-link" href="/me">My Profile</a>
+              <a class="nav-link {{:active}}" href="/me">My Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{:active}}" href="/quit">Log Out</a>
+              <a class="nav-link" href="/quit">Log Out</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/create">Create a Workout</a>
             </li>
             {{/authed}}
             <li class="nav-item">
-              <a class="nav-link active" href="/workouts">Workouts</a>
+              <a class="nav-link" href="/workouts">Workouts</a>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -109,11 +109,14 @@
         </div>
       </div>
     </nav>
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
-    <h1 class="display-4 fw-bold">Trending Workouts</h1>
-    <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Popular workouts right now</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+  <div class="px-4 py-5 my-5 text-left">
+    <img class="d-block mb-4" src="{{;avatar}}" alt="" width="72" height="72" style="border-radius: 50%;">
+    <h1 class="display-5 fw-bold">@{{;username}}</h1>
+    <div class="col-lg-6">
+      <p class="lead mb-4">{{;bio}}</p>
+      <div class="d-grid gap-2 d-sm-flex">
+<!-- <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/users/{{:id}}/workouts"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;">24</span> Workouts</a>
+<a class="btn btn-primary btn-lg px-4 me-sm-3" href="#follow"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;">12</span> Follow</a> -->
       </div>
     </div>
   </div>
@@ -170,7 +173,7 @@ function timeDiff(current, previous) {
 
     // get the quotes from API
     const getQuotes = async (page, limit) => {
-        const API_URL = `https://fitwithfriends.yodacode.repl.co/api/v1/workouts?start=${(page - 1) * 10}&limit=${limit}`;
+        const API_URL = `https://fitwithfriends.yodacode.repl.co/api/v1/workouts?start=${(page - 1) * 10}&limit=${limit}&author={{:id}}`;
         const response = await fetch(API_URL);
         // handle 404
         if (!response.ok) {

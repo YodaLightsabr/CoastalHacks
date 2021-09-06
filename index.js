@@ -66,6 +66,22 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => { // when the server has a GET request on the / route
   res.sendAuthedFile(__dirname + '/views/index.html'); // serve index.html file
+});;
+app.get('/create', (req, res) => { // when the server has a GET request on the / route
+  res.sendAuthedFile(__dirname + '/views/editor.html'); // serve index.html file
+});
+app.post('/create', async (req, res) => {
+  if (!req.cookies.__fwf || !sessions[req.cookies.__fwf]) return res.redirect('/signin');
+  let workout = await db.createWorkout({
+    title: req.body.title,
+    type: req.body.type,
+    description: req.body.description,
+    liked_users: [],
+    steps: req.body.steps.split('\n'),
+    time: Date.now(),
+    author: sessions[req.cookies.__fwf]
+  });
+  res.redirect('/workouts');
 });
 app.get('/users/:id', async (req, res, next) => { // when the server has a GET request on the / route
   let user = await db.getUser(req.params.id);
@@ -78,7 +94,7 @@ app.get('/users/:id', async (req, res, next) => { // when the server has a GET r
   } catch (e) {
     return next();
   }
-  res.sendAuthedFile(__dirname + '/views/profile.html', {
+  res.sendAuthedFile(__dirname + '/views/profile2.html', {
     id: req.params.id,
     username: user.data.username || '!NoUsernameSet',
     bio: user.data.bio || 'No bio set.',
@@ -87,7 +103,6 @@ app.get('/users/:id', async (req, res, next) => { // when the server has a GET r
     active: req.params.id == sessions[req.cookies.__fwf] ? ' active' : ''
   }); // serve index.html file
 });
-
 
 app.post('/auth', async (req, res) => {
   if (!req.body) return res.status(400).send('Invalid input');
@@ -109,9 +124,22 @@ app.post('/auth', async (req, res) => {
 app.get('/ping', (req, res) => {
   res.send('OK');
 });
+app.get('/quit', (req, res) => {
+  if (sessions[req.cookies.__fwf]) delete sessions[req.cookies.__fwf];
+  res.redirect('/');
+});
 
 app.get('/workouts', (req, res) => { // when the server has a GET request on the / route
   res.sendAuthedFile(__dirname + '/views/workouts.html'); // serve index.html file
+});
+app.get('/workouts/:id', (req, res) => { // when the server has a GET request on the / route
+  res.sendAuthedFile(__dirname + '/views/workout.html', {
+    bio: 'bio',
+    desc: 'desc'
+  }); // serve index.html file
+});
+app.get('/splash', (req, res) => { // when the server has a GET request on the / route
+  res.sendAuthedFile(__dirname + '/views/splash.html'); // serve index.html file
 });
 
 app.get('/me', (req, res) => {
@@ -146,6 +174,45 @@ app.get('/api/v1/bootstrap', (req, res) => {
   }
   res.setHeader('Content-Type', 'text/css');
   res.send(bootstrap);
+});
+
+app.get('/api/v1/workouts', async (req, res) => {
+  try {
+    let workouts = await db.allWorkouts(parseInt(req.query.start), parseInt(req.query.limit), req.query.author);
+    for (var i = 0; i < workouts.length; i++) {
+      let workout = workouts[i];
+      let id = workout.author;
+      let user;
+      let dbUser;
+      try {
+        user = await admin
+          .auth()
+          .getUser(id);
+        console.log(user);
+        workout.author = {};
+        workout.author.id = id;
+        workout.author.avatar = user.photoURL || 'https://i.pinimg.com/originals/60/99/f3/6099f305983371dadaceae99f5c905bf.png';
+      } catch (err) {
+        workout.author = {};
+        workout.author.id = id;
+        workout.author.avatar = 'https://i.pinimg.com/originals/60/99/f3/6099f305983371dadaceae99f5c905bf.png';
+      }
+      try {
+        dbUser = await db.getUser(id);
+        if (dbUser !== null) {
+          workout.author.username = dbUser.data.username;
+        } else {
+          workout.author.username = id;
+        }
+      } catch (err) {
+        workout.author.username = id;
+      }
+      workouts[i] = workout;
+    }
+    res.send(workouts);
+  } catch (err) {
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
 });
 
 app.listen(8080, () => { // start the server on port 8080 (replit forwards http ports)

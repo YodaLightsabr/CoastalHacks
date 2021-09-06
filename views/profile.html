@@ -32,7 +32,10 @@
             {{/unauthed}}
             {{authed}}
             <li class="nav-item">
-              <a class="nav-link {{:active}}" ref="/me">My Profile</a>
+              <a class="nav-link {{:active}}" href="/me">My Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{:active}}" href="/quit">Log Out</a>
             </li>
             {{/authed}}
             <li class="nav-item">
@@ -51,8 +54,8 @@
     <div class="col-lg-6">
       <p class="lead mb-4">{{;bio}}</p>
       <div class="d-grid gap-2 d-sm-flex">
-<a class="btn btn-primary btn-lg px-4 me-sm-3" href="/users/{{:id}}/workouts"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;">{{:workout_number}}</span> Workouts</a>
-<a class="btn btn-primary btn-lg px-4 me-sm-3" href="#follow"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;">1</span> Follow</a>
+<a class="btn btn-primary btn-lg px-4 me-sm-3" href="/users/{{:id}}/workouts"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;"><!--{{:workout_number}}-->24</span> Workouts</a>
+<a class="btn btn-primary btn-lg px-4 me-sm-3" href="#follow"><span style="height:20px;position: relative;top: 0px;/* vertical-align: text-bottom; */padding: 8px 10px;box-sizing: content-box;margin: -10px;color: var(--bs-primary);background-color: white;border-radius: 2px;margin-left: -20px;margin-right: 10px;left: -1px;">12</span> Follow</a>
       </div>
     </div>
   </div>
@@ -60,12 +63,27 @@
       <div class="card" style="width: 100%;">
         <div class="card-header bg-primary text-white">HIIT Workout</div>
         <div class="card-body"> 
-          <h5 class="card-title">Burpee Blast</h5>
+          <h5 class="card-title">Heavy Interval</h5>
           <span style="display: inline-block; height: 30px;">
-          <h6 class="card-subtitle mb-2 text-muted" style="vertical-align: middle;"><img src="/favicon.png" style="height: 30px; margin-right: 6px; border: 1px solid black; border-radius: 50%; vertical-align: middle;">Fit with Friends</h6>
+          <h6 class="card-subtitle mb-2 text-muted" style="vertical-align: middle;"><img src="https://lh3.googleusercontent.com/a/AATXAJwvurrf51zAoVF-G_BqjBrHJpyr-HuLV8RfBypi8w=s96-c" style="height: 30px; margin-right: 6px; border: 1px solid black; border-radius: 50%; vertical-align: middle;">@Yoda</h6>
           </span>
-          <p class="card-text">Fit with Friends Workout of the Day: September 4th, 2021.</p>
-          <p class="card-text"><small class="text-muted">3 mins ago</small></p>
+          <p class="card-text">HIIT workout with a combination of Push-Ups, Squats, Curl-Ups, Burpees, and more.</p>
+          <p class="card-text"><small class="text-muted">12 mins ago</small></p>
+          <a href="/workouts/{id}" class="btn btn-primary">Start Workout</a>
+          <a href="mailto:?subject=Fit%20with%20Friends&body=Check%20out%20this%20workout%20on%20Fit%20with%20Friends!%20https%3A%2F%2Ffitwithfriends.yodacode.repl.co%2Fworkouts%2F{id}" class="btn btn-outline-secondary">Share</a>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card" style="width: 100%;">
+        <div class="card-header bg-primary text-white">Light Warmup</div>
+        <div class="card-body"> 
+          <h5 class="card-title">Morning Mash-Up</h5>
+          <span style="display: inline-block; height: 30px;">
+          <h6 class="card-subtitle mb-2 text-muted" style="vertical-align: middle;"><img src="https://lh3.googleusercontent.com/a/AATXAJwvurrf51zAoVF-G_BqjBrHJpyr-HuLV8RfBypi8w=s96-c" style="height: 30px; margin-right: 6px; border: 1px solid black; border-radius: 50%; vertical-align: middle;">@Yoda</h6>
+          </span>
+          <p class="card-text">A short workout to get your blood pumping and get you ready for the day.</p>
+          <p class="card-text"><small class="text-muted">8 hours ago</small></p>
           <a href="/workouts/{id}" class="btn btn-primary">Start Workout</a>
           <a href="mailto:?subject=Fit%20with%20Friends&body=Check%20out%20this%20workout%20on%20Fit%20with%20Friends!%20https%3A%2F%2Ffitwithfriends.yodacode.repl.co%2Fworkouts%2F{id}" class="btn btn-outline-secondary">Share</a>
         </div>

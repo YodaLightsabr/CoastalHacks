@@ -51,23 +51,32 @@
         </div>
       </div>
     </nav>
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
-    <h1 class="display-4 fw-bold">Fit with Friends</h1>
+    <div class="px-4 pt-5 my-5 text-center border-bottom" style="height: calc(100% - 100px); overflow: hidden;">
+    <h1 class="display-4 fw-bold">{{;name}}</h1>
     <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Browse workouts, compare times, and share exercises with friends.</p>
+      <p class="lead mb-4">{{;desc}}</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-      {{unauthed}}
-        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/signin">Sign In</a>
-      {{/unauthed}}
-      {{authed}}
-        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/workouts">Workouts</a>
-      {{/authed}}
-        <a class="btn btn-outline-secondary btn-lg px-4" href="#main">Learn More</a>
+        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/workouts">Start Workout</a>
+        <a class="btn btn-outline-secondary btn-lg px-4" href="/workouts">Publish</a>
       </div>
     </div>
-    <div class="overflow-hidden" style="max-height: 30vh;">
+    <div>
       <div class="container px-5">
-        <img src="/workout.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+        <div class="border rounded-3 shadow-lg mb-4" style="overflow-y: scroll;">
+<br>
+                <h1>10 Curl-Ups</h1>
+      <br><br>
+                <h1>8 Squats</h1>
+      <br><br>
+                <h1>6 Burpees</h1>
+      <br><br>
+                <h1>4 Push-Ups</h1>
+      <br><br>
+                <h1>20 Second Rest</h1>
+      <br><br>
+                <p>Repeat</p>
+
+        </div>
       </div>
     </div>
   </div>
